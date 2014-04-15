@@ -12,6 +12,8 @@
 
 static double degreesToRadians = 0.0174532925;
 
+static int NOT_CALCULATED = -1;
+
 class Coordinate {
     double _latitude;
     double _longitude;
@@ -43,8 +45,18 @@ class City {
     
     bool _needsHealthCenter = true;
     
+    //  Step One Variables
+    
+    double _viableCount;
+    
+    //  Step Two Variables
+    
+    double _population;
+    
+    double _maxPopulationServed = NOT_CALCULATED;
+    
 public:
-    City(std::string name, Coordinate crd) : _name(name), _coordinates(crd) {}
+    City(std::string name, Coordinate crd, int popl = -1) : _name(name), _coordinates(crd), _population(popl) {}
     
     std::string getName() {
         return _name;
@@ -74,12 +86,42 @@ public:
         return _needsHealthCenter;
     }
     
+    void setHealthCenterViableCount(double count) {
+        _viableCount = count;
+    }
+    
+    double getHealthCareViableCount() {
+        return _viableCount;
+    }
+    
     bool operator==(const City &cmp) const {
         return (_name == cmp._name && _coordinates == cmp._coordinates);
     }
 };
 
-void fillWithHealthCenters(Graph<City> *cityGraph) {
+void _methodOneSetupVertex(Vertex<City> *vertex, double maxDistance) {
+    //
+    //  Fill the vertex object with information about how many cities
+    //  it can serve (within a maximum distance) if a health care center
+    //  is built on it.
+    //
+    
+    unsigned int viableCount = 0;
+    
+    vector<Edge<City>> edges = vertex->getAdj();
+    
+    for (auto it2 = edges.begin(); it2 != edges.end(); ++it2)
+        if ((* it2).getWeight() <= maxDistance)
+            viableCount++;
+    
+    City cityInfo = vertex->getInfo();
+    
+    cityInfo.setHealthCenterViableCount(viableCount);
+    
+    vertex->setInfo(cityInfo);
+}
+
+void fillWithHealthCentersMethodOne(Graph<City> *cityGraph, double maxDistance) {
     //
     //  Construct Graph's Edges
     //
@@ -106,15 +148,25 @@ void fillWithHealthCenters(Graph<City> *cityGraph) {
         //  And start filling! (but after. not now.)
         //
         
-        if (!orderedVertices.size())
+        _methodOneSetupVertex(vertex, maxDistance);
+        
+        if (!orderedVertices.size()) {
             orderedVertices.insert(orderedVertices.begin(), vertex);
-        else {
-            for (auto it = orderedVertices.begin(); it != orderedVertices.end(); ++it)
-                if (vertex->getAdj().size() > (* it)->getAdj().size()) {
+        } else {
+            bool placed = false;
+            
+            for (auto it = orderedVertices.begin(); it != orderedVertices.end(); ++it) {
+                if (vertex->getInfo().getHealthCareViableCount() > (* it)->getInfo().getHealthCareViableCount()) {
                     orderedVertices.insert(it, vertex);
+                    
+                    placed = true;
                     
                     break;
                 }
+            }
+            
+            if (!placed)
+                orderedVertices.insert(orderedVertices.end(), vertex);
         }
     }
     
@@ -150,10 +202,14 @@ void fillWithHealthCenters(Graph<City> *cityGraph) {
     //
 }
 
+void fillWithHealthCentersMethodTwo(Graph<City> *cityGraph, int healthCenterCount) {
+    
+}
+
 int main(int argc, const char * argv[]) {
     Graph<City> cityGraph;
     
-    fillWithHealthCenters(&cityGraph);
+    fillWithHealthCentersMethodOne(&cityGraph, 5.0f);
     
     std::cout << "Well, at least we got here!" << std::endl;
     
