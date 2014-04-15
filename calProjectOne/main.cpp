@@ -10,94 +10,8 @@
 
 #include "Graph.h"
 
-static double degreesToRadians = 0.0174532925;
-
-static int NOT_CALCULATED = -1;
-
-class Coordinate {
-    double _latitude;
-    double _longitude;
-    
-public:
-    Coordinate(double lat, double lng) : _latitude(lat), _longitude(lng) {}
-    
-    bool operator==(const Coordinate &cmp) const {
-        return (_latitude == cmp._latitude && _longitude == cmp._longitude);
-    }
-    
-    double distanceTo(const Coordinate &crd) const {
-        double dlong = (crd._longitude - _longitude) * degreesToRadians;
-        double dlat = (crd._latitude - _latitude) * degreesToRadians;
-        double a = pow(sin(dlat/2.0), 2) + cos(_latitude * degreesToRadians) * cos(crd._latitude * degreesToRadians) * pow(sin(dlong/2.0), 2);
-        double c = 2 * atan2(sqrt(a), sqrt(1-a));
-        double d = 6367 * c;
-        
-        return d;
-    }
-};
-
-class City {
-    std::string _name;
-    
-    Coordinate _coordinates;
-    
-    bool _healthCenter = false;
-    
-    bool _needsHealthCenter = true;
-    
-    //  Step One Variables
-    
-    double _viableCount;
-    
-    //  Step Two Variables
-    
-    double _population;
-    
-    double _maxPopulationServed = NOT_CALCULATED;
-    
-public:
-    City(std::string name, Coordinate crd, int popl = -1) : _name(name), _coordinates(crd), _population(popl) {}
-    
-    std::string getName() {
-        return _name;
-    }
-    
-    Coordinate getCoordinates() {
-        return _coordinates;
-    }
-    
-    double distanceTo(const City &city) const {
-        return _coordinates.distanceTo(city._coordinates);
-    }
-    
-    void setContainsHealthCenter(bool contains) {
-        _healthCenter = contains;
-    }
-    
-    bool getContainsHealthCenter() {
-        return _healthCenter;
-    }
-    
-    void setNeedsHealthCenter(bool needs) {
-        _needsHealthCenter = needs;
-    }
-    
-    bool getNeedsHealthCenter() {
-        return _needsHealthCenter;
-    }
-    
-    void setHealthCenterViableCount(double count) {
-        _viableCount = count;
-    }
-    
-    double getHealthCareViableCount() {
-        return _viableCount;
-    }
-    
-    bool operator==(const City &cmp) const {
-        return (_name == cmp._name && _coordinates == cmp._coordinates);
-    }
-};
+#include "Coordinate.h"
+#include "City.h"
 
 void _methodOneSetupVertex(Vertex<City> *vertex, double maxDistance) {
     //
@@ -119,6 +33,37 @@ void _methodOneSetupVertex(Vertex<City> *vertex, double maxDistance) {
     cityInfo.setHealthCenterViableCount(viableCount);
     
     vertex->setInfo(cityInfo);
+}
+
+void _fillByOrder(std::list<Vertex<City> *> orderedVertices, int maxHospitals = NOT_CALCULATED) {
+    for (auto it = orderedVertices.begin(); it != orderedVertices.end(); ++it) {
+        if ((* it)->getInfo().getNeedsHealthCenter())
+            continue;
+        
+        City newCityInfo = (* it)->getInfo();
+        
+        newCityInfo.setContainsHealthCenter(true);
+        newCityInfo.setNeedsHealthCenter(false);
+        
+        (* it)->setInfo(newCityInfo);
+        
+        for (auto it2 = (* it)->getAdj().begin(); it2 != (* it)->getAdj().end(); ++it2) {
+            if (maxHospitals != NOT_CALCULATED) {
+                if (!maxHospitals)
+                    break;
+                
+                maxHospitals--;
+            }
+            
+            Vertex<City> *dest = (* it2).getDest();
+            
+            newCityInfo = dest->getInfo();
+            
+            newCityInfo.setNeedsHealthCenter(false);
+            
+            dest->setInfo(newCityInfo);
+        }
+    }
 }
 
 void fillWithHealthCentersMethodOne(Graph<City> *cityGraph, double maxDistance) {
@@ -174,27 +119,7 @@ void fillWithHealthCentersMethodOne(Graph<City> *cityGraph, double maxDistance) 
     //  We should now have a graph and an ordered list of vertices.
     //
     
-    for (auto it = orderedVertices.begin(); it != orderedVertices.end(); ++it) {
-        if ((* it)->getInfo().getNeedsHealthCenter())
-            continue;
-        
-        City newCityInfo = (* it)->getInfo();
-        
-        newCityInfo.setContainsHealthCenter(true);
-        newCityInfo.setNeedsHealthCenter(false);
-        
-        (* it)->setInfo(newCityInfo);
-        
-        for (auto it2 = (* it)->getAdj().begin(); it2 != (* it)->getAdj().end(); ++it2) {
-            Vertex<City> *dest = (* it2).getDest();
-            
-            newCityInfo = dest->getInfo();
-            
-            newCityInfo.setNeedsHealthCenter(false);
-            
-            dest->setInfo(newCityInfo);
-        }
-    }
+    _fillByOrder(orderedVertices);
     
     //
     //  Was this it?
@@ -203,13 +128,74 @@ void fillWithHealthCentersMethodOne(Graph<City> *cityGraph, double maxDistance) 
 }
 
 void fillWithHealthCentersMethodTwo(Graph<City> *cityGraph, int healthCenterCount) {
+    //
+    //  Construct Graph's Edges
+    //
     
+    std::vector<Vertex<City> *> vertices = cityGraph->getVertexSet();
+    
+    std::list<Vertex<City> *> orderedVertices;
+    
+    for (int i = 0; i < vertices.size(); i++) {
+        Vertex<City> *vertex = vertices[i];
+        
+        int populationServed = vertex->getInfo().getPopulation();
+        
+        for (int j = 0; j < vertex->getAdj().size(); j++)
+            populationServed += vertex->getAdj()[j].getDest()->getInfo().getPopulation();
+        
+        City info = vertex->getInfo();
+        
+        info.setMaxPopulationServed(populationServed);
+        
+        vertex->setInfo(info);
+    }
+    
+    for (int i = 0; i < vertices.size(); i++) {
+        Vertex<City> *vertex = vertices[i];
+        
+        if (!orderedVertices.size())
+            orderedVertices.insert(orderedVertices.begin(), vertex);
+        else {
+            bool placed = false;
+            
+            for (auto it = orderedVertices.begin(); it != orderedVertices.end(); ++it) {
+                if (vertex->getInfo().getMaxPopulationServed() > (* it)->getInfo().getMaxPopulationServed()) {
+                    orderedVertices.insert(it, vertex);
+                    
+                    placed = true;
+                    
+                    break;
+                }
+            }
+            
+            if (!placed)
+                orderedVertices.insert(orderedVertices.end(), vertex);
+        }
+    }
+    
+    //
+    //  We should now have a graph and an ordered list of vertices.
+    //
+    
+    _fillByOrder(orderedVertices, healthCenterCount);
+    
+    //
+    //  Was this it?
+    //  Probably not... :|
+    //
 }
 
 int main(int argc, const char * argv[]) {
     Graph<City> cityGraph;
     
+    cityGraph.addVertex(City("Maia", Coordinate(10, 10)));
+    cityGraph.addVertex(City("Porto", Coordinate(10.1f, 10.1f)));
+    
+    Graph<City> cityGraphTwo;
+    
     fillWithHealthCentersMethodOne(&cityGraph, 5.0f);
+    fillWithHealthCentersMethodTwo(&cityGraph, 2);
     
     std::cout << "Well, at least we got here!" << std::endl;
     
