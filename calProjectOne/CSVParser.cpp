@@ -23,12 +23,12 @@ CSVParser::~CSVParser() {
 }
 
 //
-// parseCSV()
+//  parseCSV()
 //
-// Return Format:
-// <vector> - representing a file
-//  <vector> - representing a line
-//   <string> - representing a cell
+//  Return Format:
+//      <vector> - representing a file
+//          <vector> - representing a line
+//              <string> - representing a cell
 //
 
 std::vector<std::vector<std::string>> CSVParser::parseCSV() {

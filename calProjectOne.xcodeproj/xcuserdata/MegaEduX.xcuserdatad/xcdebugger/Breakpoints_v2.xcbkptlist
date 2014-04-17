@@ -6,15 +6,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "calProjectOne/main.cpp"
-            timestampString = "419375020.491339"
+            timestampString = "419437095.833935"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "main(int argc, const char * argv[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "calProjectOne/main.cpp"
-            timestampString = "419375020.491339"
+            timestampString = "419437095.833935"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "fillWithHealthCentersMethodOne(Graph&lt;City&gt; *cityGraph, double maxDistance)"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
+            landmarkName = "main(int argc, const char * argv[])"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,13 +42,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "calProjectOne/main.cpp"
-            timestampString = "419374675.065945"
+            timestampString = "419437095.833935"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "_fillByOrder(std::list&lt;Vertex&lt;City&gt; *&gt; orderedVertices, int maxHospitals = NOT_CALCULATED)"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "main(int argc, const char * argv[])"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "main"
+                  moduleName = "calProjectOne"
+                  urlString = "file:///Users/MegaEduX/Dropbox/Coding/Experiments/calProjectOne/calProjectOne/main.cpp"
+                  timestampString = "419436396.704674"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "240"
+                  endingLineNumber = "240"
+                  offsetFromSymbolStart = "3722">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "main"
+                  moduleName = "calProjectOne"
+                  urlString = "file:///Users/MegaEduX/Dropbox/Coding/Experiments/calProjectOne/calProjectOne/main.cpp"
+                  timestampString = "419436396.705045"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "240"
+                  endingLineNumber = "240"
+                  offsetFromSymbolStart = "3800">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

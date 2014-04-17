@@ -12,6 +12,8 @@
 		6F76B97418FDAEF700B6629E /* Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F76B97218FDAEF700B6629E /* Reader.cpp */; };
 		6F76B97718FDB06A00B6629E /* CSVParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F76B97518FDB06A00B6629E /* CSVParser.cpp */; };
 		6F76B97A18FDB0B500B6629E /* Additions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F76B97818FDB0B500B6629E /* Additions.cpp */; };
+		6F7BA2F818FF768B00B1FFA9 /* connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BA2F318FF768B00B1FFA9 /* connection.cpp */; };
+		6F7BA2F918FF768B00B1FFA9 /* graphviewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BA2F618FF768B00B1FFA9 /* graphviewer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +42,11 @@
 		6F76B97918FDB0B500B6629E /* Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Additions.h; sourceTree = "<group>"; };
 		6F76B97E18FDB29000B6629E /* City.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
 		6F76B97F18FDB29600B6629E /* Coordinate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Coordinate.h; sourceTree = "<group>"; };
+		6F7BA2F318FF768B00B1FFA9 /* connection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = connection.cpp; sourceTree = "<group>"; };
+		6F7BA2F418FF768B00B1FFA9 /* connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = connection.h; sourceTree = "<group>"; };
+		6F7BA2F518FF768B00B1FFA9 /* edgetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edgetype.h; sourceTree = "<group>"; };
+		6F7BA2F618FF768B00B1FFA9 /* graphviewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = graphviewer.cpp; sourceTree = "<group>"; };
+		6F7BA2F718FF768B00B1FFA9 /* graphviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graphviewer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +79,7 @@
 		6F76B96718FC8B3200B6629E /* calProjectOne */ = {
 			isa = PBXGroup;
 			children = (
+				6F7BA2FA18FF769000B1FFA9 /* Graph Viewer */,
 				6F76B97918FDB0B500B6629E /* Additions.h */,
 				6F76B97818FDB0B500B6629E /* Additions.cpp */,
 				6F76B97F18FDB29600B6629E /* Coordinate.h */,
@@ -85,6 +93,18 @@
 				6F76B96A18FC8B3200B6629E /* calProjectOne.1 */,
 			);
 			path = calProjectOne;
+			sourceTree = "<group>";
+		};
+		6F7BA2FA18FF769000B1FFA9 /* Graph Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				6F7BA2F318FF768B00B1FFA9 /* connection.cpp */,
+				6F7BA2F418FF768B00B1FFA9 /* connection.h */,
+				6F7BA2F518FF768B00B1FFA9 /* edgetype.h */,
+				6F7BA2F618FF768B00B1FFA9 /* graphviewer.cpp */,
+				6F7BA2F718FF768B00B1FFA9 /* graphviewer.h */,
+			);
+			name = "Graph Viewer";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +158,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F7BA2F918FF768B00B1FFA9 /* graphviewer.cpp in Sources */,
 				6F76B97418FDAEF700B6629E /* Reader.cpp in Sources */,
+				6F7BA2F818FF768B00B1FFA9 /* connection.cpp in Sources */,
 				6F76B97A18FDB0B500B6629E /* Additions.cpp in Sources */,
 				6F76B97718FDB06A00B6629E /* CSVParser.cpp in Sources */,
 				6F76B96918FC8B3200B6629E /* main.cpp in Sources */,

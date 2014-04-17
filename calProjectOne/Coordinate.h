@@ -1,9 +1,9 @@
 //
 //  Coordinate.h
-//  calProjectOne
+//  CAL Project One
 //
-//  Created by Eduardo Almeida on 15/04/14.
-//  Copyright (c) 2014 Bitten Apps. All rights reserved.
+//  MIEIC 2013/2014
+//  Eduardo Almeida, Joao Almeida and Joao de Figueiredo
 //
 
 #ifndef calProjectOne_Coordinate_h
@@ -22,6 +22,14 @@ public:
     
     bool operator==(const Coordinate &cmp) const {
         return (_latitude == cmp._latitude && _longitude == cmp._longitude);
+    }
+    
+    double getLatitude() {
+        return _latitude;
+    }
+    
+    double getLongitude() {
+        return _longitude;
     }
     
     double distanceTo(const Coordinate &crd) const {
