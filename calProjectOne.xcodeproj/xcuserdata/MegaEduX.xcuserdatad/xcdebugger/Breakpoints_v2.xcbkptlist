@@ -35,51 +35,5 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "calProjectOne/main.cpp"
-            timestampString = "419437095.833935"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
-            landmarkName = "main(int argc, const char * argv[])"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "main"
-                  moduleName = "calProjectOne"
-                  urlString = "file:///Users/MegaEduX/Dropbox/Coding/Experiments/calProjectOne/calProjectOne/main.cpp"
-                  timestampString = "419436396.704674"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "240"
-                  endingLineNumber = "240"
-                  offsetFromSymbolStart = "3722">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "main"
-                  moduleName = "calProjectOne"
-                  urlString = "file:///Users/MegaEduX/Dropbox/Coding/Experiments/calProjectOne/calProjectOne/main.cpp"
-                  timestampString = "419436396.705045"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "240"
-                  endingLineNumber = "240"
-                  offsetFromSymbolStart = "3800">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

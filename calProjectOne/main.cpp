@@ -227,7 +227,7 @@ int main(int argc, const char * argv[]) {
         
         vertexToId.insert(std::pair<Vertex<City> *, int>(cityGraph.getVertexSet()[i], i));
         
-        gv->rearrange();
+        gv -> rearrange();
     }
     
     for (int i = 0; i < cityGraph.getVertexSet().size(); i++) {
@@ -237,26 +237,26 @@ int main(int argc, const char * argv[]) {
         
         std::vector<Vertex<City> *> passed;
         
-        for (int j = i; j < vertex->getAdj().size(); j++) {
-            Edge<City> edge = vertex->getAdj()[j];
+        for (int j = i; j < vertex -> getAdj().size(); j++) {
+            Edge<City> edge = vertex -> getAdj()[j];
             
             int id = i * 1000 + j;
             
             int vertexId2 = vertexToId[edge.getDest()];
             
-            double weight = vertex->getAdj()[j].getWeight();
+            double weight = vertex -> getAdj()[j].getWeight();
             
             if (!weight || vertexId == vertexId2 || std::find(passed.begin(), passed.end(), edge.getDest()) != passed.end())
                 continue;
             
             passed.insert(passed.end(), edge.getDest());
             
-            gv->addEdge(id, vertexId, vertexId2, EdgeType::UNDIRECTED);
-            gv->setEdgeWeight(id, weight * 1000);
+            gv -> addEdge(id, vertexId, vertexId2, EdgeType::UNDIRECTED);
+            gv -> setEdgeWeight(id, weight * 1000);
             
             std::cout << "Adding edge from " << vertexId << " to " << vertexId2 << " with weight " << weight << "..." << std::endl;
             
-            gv->rearrange();
+            gv -> rearrange();
         }
     }
     
