@@ -198,14 +198,40 @@ int fillWithHealthCentersMethodTwo(Graph<City> *cityGraph, int healthCenterCount
 }
 
 int main(int argc, const char * argv[]) {
-    Reader rd = Reader("/Users/MegaEduX/cities.txt");
+    bool validPath = false;
     
-    Graph<City> cityGraph = rd.generateGraph();
-    Graph<City> cityGraphTwo = rd.generateGraph();
+    Reader *rd = nullptr;
     
-    std::cout << "[Method One Tests] Minimum Health Centers: " << fillWithHealthCentersMethodOne(&cityGraph, 5.0f) << std::endl;
+    while (!validPath) {
+        try {
+            std::string path;
+            std::cout << "Path to cities file: ";
+            std::cin >> path;
+            
+            Reader rd = Reader(path);
+            
+            validPath = true;
+        } catch (const char *exc) {
+            std::cout << "Can't open file. Please retry." << std::endl;
+        }
+    }
     
-    std::cout << "[Method Two Tests] Placed Health Centers: " << fillWithHealthCentersMethodTwo(&cityGraphTwo, 1) << std::endl;
+    int method = 0;
+    
+    if (method != 1 && method != 2) {
+        std::cout << "Method Number (1/2): ";
+        std::cin >> method;
+        
+        if (method != 1 && method != 2)
+            std::cout << "Invalid method number. Please retry." << std::endl;
+    }
+    
+    Graph<City> cityGraph = rd -> generateGraph();
+    
+    if (method == 1)
+        std::cout << "[Method One Tests] Minimum Health Centers: " << fillWithHealthCentersMethodOne(&cityGraph, 5.0f) << std::endl;
+    else
+        std::cout << "[Method Two Tests] Placed Health Centers: " << fillWithHealthCentersMethodTwo(&cityGraph, 1) << std::endl;
     
     GraphViewer *gv = new GraphViewer(600, 600, true);
     
