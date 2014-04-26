@@ -39,6 +39,8 @@ namespace Additions {
     void clearConsole();
     
     void waitForReturn();
+    
+    int64_t getTimeMS64();
 }
 
 #endif

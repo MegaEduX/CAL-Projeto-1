@@ -15,6 +15,11 @@
 #include "Coordinate.h"
 #include "City.h"
 
+//
+//  CSV File Format:
+//  name, latitude, longitude, population
+//
+
 typedef enum {
     kCellName,
     kCellCoordinateLatitude,

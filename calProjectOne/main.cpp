@@ -16,6 +16,8 @@
 
 #include "Reader.h"
 
+#include "Additions.h"
+
 #include "graphviewer.h"
 
 void _methodOneSetupVertex(Vertex<City> *vertex, double maxDistance) {
@@ -226,12 +228,20 @@ int main(int argc, const char * argv[]) {
             std::cout << "Invalid method number. Please retry." << std::endl;
     }
     
+    std::cout << "Starting Job..." << std::endl;
+    
+    uint64_t init_time = Additions::getTimeMS64();
+    
     Graph<City> cityGraph = rd -> generateGraph();
     
     if (method == 1)
         std::cout << "[Method One Tests] Minimum Health Centers: " << fillWithHealthCentersMethodOne(&cityGraph, 5.0f) << std::endl;
     else
         std::cout << "[Method Two Tests] Placed Health Centers: " << fillWithHealthCentersMethodTwo(&cityGraph, 1) << std::endl;
+    
+    std::cout << "Done. Time Elapsed: " << Additions::getTimeMS64() - init_time << " ms." << std::endl;
+    
+    std::cout << "Starting GraphViewer..." << std::endl;
     
     GraphViewer *gv = new GraphViewer(600, 600, true);
     
