@@ -45,7 +45,10 @@ void _methodOneSetupVertex(Vertex<City> *vertex, double maxDistance) {
 int _fillByOrder(std::list<Vertex<City> *> orderedVertices, double maxDistance = NOT_CALCULATED, int maxHospitals = NOT_CALCULATED) {
     int insertedHospitals = 0;
     
-    for (auto it = orderedVertices.begin(); it != orderedVertices.end() && (* it) -> getInfo().getNeedsHealthCenter(); ++it) {
+    for (auto it = orderedVertices.begin(); it != orderedVertices.end(); ++it) {
+        if (! ((* it) -> getInfo().getNeedsHealthCenter()) )
+            continue;
+        
         if (maxHospitals != NOT_CALCULATED) {
             if (!maxHospitals)
                 break;
@@ -68,8 +71,14 @@ int _fillByOrder(std::list<Vertex<City> *> orderedVertices, double maxDistance =
             Vertex<City> *dest = (* it2).getDest();
             
             City newCityInfo = dest -> getInfo();
+        }
+        
+        for (auto it2 = adj.begin(); it2 != adj.end(); ++it2) {
+            Vertex<City> *dest = (* it2).getDest();
             
-            if (maxDistance != NOT_CALCULATED && newCityInfo.distanceTo(cityInfo) > maxDistance)
+            City newCityInfo = dest -> getInfo();
+            
+            if (!newCityInfo.distanceTo(cityInfo) || maxDistance == NOT_CALCULATED || newCityInfo.distanceTo(cityInfo) > maxDistance)
                 continue;
             
             newCityInfo.setNeedsHealthCenter(false);
@@ -93,7 +102,7 @@ int fillWithHealthCentersMethodOne(Graph<City> *cityGraph, double maxDistance) {
     for (int i = 0; i < vertices.size(); i++) {
         Vertex<City> *vertex = vertices[i];
         
-        for (int j = i; j < vertices.size(); j++) {
+        for (int j = i + 1; j < vertices.size(); j++) {
             Vertex<City> *vertex2 = vertices[j];
             
             double edgeWidth = vertex -> getInfo().distanceTo(vertex2 -> getInfo());
@@ -210,7 +219,7 @@ int main(int argc, const char * argv[]) {
             std::cout << "Path to cities file: ";
             std::cin >> path;
             
-            Reader rd = Reader(path);
+            rd = new Reader(path);
             
             validPath = true;
         } catch (const char *exc) {
@@ -220,12 +229,31 @@ int main(int argc, const char * argv[]) {
     
     int method = 0;
     
-    if (method != 1 && method != 2) {
+    while (method != 1 && method != 2) {
         std::cout << "Method Number (1/2): ";
+        
         std::cin >> method;
         
         if (method != 1 && method != 2)
             std::cout << "Invalid method number. Please retry." << std::endl;
+    }
+    
+    float arg = 0.0f;
+    
+    while (!arg) {
+        string arg_h;
+        
+        if (method == 1)
+            std::cout << "Maximum Distance between Health Centers: ";
+        else
+            std::cout << "Number of Health Centers: ";
+        
+        std::cin >> arg_h;
+        
+        if (!Additions::checkForOnlyNumeric(arg_h))
+            std::cout << "You may only use numbers and the decimal character." << std::endl;
+        else
+            arg = atof(arg_h.c_str());
     }
     
     std::cout << "Starting Job..." << std::endl;
@@ -235,9 +263,9 @@ int main(int argc, const char * argv[]) {
     Graph<City> cityGraph = rd -> generateGraph();
     
     if (method == 1)
-        std::cout << "[Method One Tests] Minimum Health Centers: " << fillWithHealthCentersMethodOne(&cityGraph, 5.0f) << std::endl;
+        std::cout << "[Method One Result] Minimum Health Centers: " << fillWithHealthCentersMethodOne(&cityGraph, arg) << std::endl;
     else
-        std::cout << "[Method Two Tests] Placed Health Centers: " << fillWithHealthCentersMethodTwo(&cityGraph, 1) << std::endl;
+        std::cout << "[Method Two Result] Placed Health Centers: " << fillWithHealthCentersMethodTwo(&cityGraph, (int) arg) << std::endl;
     
     std::cout << "Done. Time Elapsed: " << Additions::getTimeMS64() - init_time << " ms." << std::endl;
     
@@ -290,7 +318,7 @@ int main(int argc, const char * argv[]) {
             gv -> addEdge(id, vertexId, vertexId2, EdgeType::UNDIRECTED);
             gv -> setEdgeWeight(id, weight * 1000);
             
-            std::cout << "Adding edge from " << vertexId << " to " << vertexId2 << " with weight " << weight << "..." << std::endl;
+            std::cout << "[Graph Viewer Debug] Adding edge from " << vertexId << " to " << vertexId2 << " with weight " << weight << "..." << std::endl;
             
             gv -> rearrange();
         }
